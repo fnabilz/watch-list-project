@@ -11,7 +11,7 @@ import { RouterLink } from 'vue-router';
     <!-- elements -->
     <div class="main-container">
         <div class="login-card">
-            
+
             <h1>Welcome back</h1>
 
             <form @submit.prevent=""  class="item-container">
@@ -23,17 +23,17 @@ import { RouterLink } from 'vue-router';
                     <Lock class="icon"/>
                     <input id="password" :type="showPassword ? 'text' : 'password'"  v-model="password"  placeholder="Password" required/>
                 </div>
-                
+
                 <RouterLink class="router-link" to="/home">
                     <button>Login</button>
                 </RouterLink>
-            
+
             </form>
 
             <p class="register-link">
                 Don't have an account? <router-link to="/register">Sign up</router-link>
             </p>
-            
+
 
         </div>
     </div>
@@ -51,7 +51,7 @@ import { RouterLink } from 'vue-router';
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100vw;  
+    width: 100vw;
     height: 100vh;
     background-color: var(--color-blue);
 }
@@ -61,24 +61,24 @@ import { RouterLink } from 'vue-router';
     flex-direction: column;
     padding: 1rem;
     width: 30rem;
-    height: 35rem;
-    border-radius: .8rem;
+    height: 30rem;
+    border-radius: 1.5rem;
     background-color: white;
     box-shadow: 2px 4px 8px 0px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
     text-align: center;
-    padding: 4rem 0 0 0;
+    padding: 3rem 0 0 0;
 }
 
 .item-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    height: 25rem;
+    justify-content: flex-end;
+    height: 16rem;
     gap: 2.5rem;
-    padding: 2rem 1rem 0 1rem;
+    padding: 0 2rem 0 2rem;
 }
 
 .item-div {
@@ -107,8 +107,15 @@ input {
     padding: 0 1rem 0 1rem;
 }
 
+input:focus {
+  outline: none;
+}
+
 .router-link {
-  
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  text-decoration: none;
 }
 
 button {
@@ -118,7 +125,7 @@ button {
     border-radius: .5rem;
     border-width: 0;
     padding: .7rem;
-    width: 26rem;
+    width: 24rem;
 }
 
 button:hover {
@@ -128,9 +135,9 @@ button:hover {
 .register-link {
     display: flex;
     gap: .5rem;
-    justify-content: flex-end;
+    justify-content: center;
     font-size: 1rem;
-    padding: 0 1rem 6.5rem 0;
+    padding: 1.5rem 0 0 0;
     color: #6D8196;
 }
 
