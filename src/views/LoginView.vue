@@ -24,7 +24,7 @@ import { RouterLink } from 'vue-router';
                     <input id="password" :type="showPassword ? 'text' : 'password'"  v-model="password"  placeholder="Password" required/>
                 </div>
 
-                <RouterLink class="router-link" to="/home">
+                <RouterLink class="router-link" to="/">
                     <button>Login</button>
                 </RouterLink>
 
