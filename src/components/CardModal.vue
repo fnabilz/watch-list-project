@@ -4,6 +4,7 @@
 import { getImageUrl } from '@/utils/tmdbImage';
 import { XSquareIcon } from '@lucide/vue';
 
+// eslint-disable-next-line no-unused-vars
 const props = defineProps(['item'])
 const emit = defineEmits(['close'])
 
