@@ -138,7 +138,8 @@ onMounted(() => {
         </div>
       </div>
       <div v-else class="category-container" >
-        <h1 v-if="queryList.length === 0">Searching...</h1>
+        <h1 v-if="searching">Searching...</h1>
+        <h1 v-else-if="queryList.length === 0"> No result found</h1>
         <h1 v-else>Found {{ queryList.length }} results</h1>
         <div class="list-container">
           <button v-for="result in queryList" :key="result.id" class="movie-card" @click="openCard(result)" :style="{backgroundImage: getBackgroundImage(result.backdrop_path)}">
