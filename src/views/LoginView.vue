@@ -17,11 +17,11 @@ import { RouterLink } from 'vue-router';
             <form @submit.prevent=""  class="item-container">
                 <div class="item-div">
                     <Mail class="icon"/>
-                    <input id="email" type="email" v-model="email" placeholder="Email" required/>
+                    <input id="email" type="email" v-model="email" placeholder="Email" autocomplete="off" required/>
                 </div>
                 <div class="item-div">
                     <Lock class="icon"/>
-                    <input id="password" :type="showPassword ? 'text' : 'password'"  v-model="password"  placeholder="Password" required/>
+                    <input id="password" :type="showPassword ? 'text' : 'password'"  v-model="password"  placeholder="Password" autocomplete="new-password" required/>
                 </div>
 
                 <RouterLink class="router-link" to="/">

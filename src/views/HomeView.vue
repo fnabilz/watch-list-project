@@ -2,6 +2,23 @@
 // javaScript
 
 import { PlusSquareIcon } from '@lucide/vue';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter()
+const selectedCategory = ref('Movie')
+const categories = ['Movie','Tv Show']
+
+function handleCategory(categoryName) {
+  selectedCategory.value = categoryName
+}
+
+function goToSearchPage() {
+  router.push({
+    path: '/search',
+    query: { category: selectedCategory.value }
+  })
+}
 
 </script>
 
@@ -11,10 +28,22 @@ import { PlusSquareIcon } from '@lucide/vue';
     <div class="main-container">
       <h1>Layan later?</h1>
 
-      <div class="grid-container">
-        <button class="card">
+      <div class="filter-container">
+        <button v-for="(category, index) in categories" :key="index" @click="handleCategory(category)" :style="selectedCategory === category ? {backgroundColor: 'navy'} : {backgroundColor: 'cornflowerblue'}">
+          {{ category }}
+        </button>
+      </div>
+
+      <div v-if="selectedCategory === 'Movie'" class="grid-container">
+        <button @click="goToSearchPage" class="card" to="/search">
           <PlusSquareIcon class="icon"/>
           <span>Add movie</span>
+        </button>
+      </div>
+      <div v-if="selectedCategory === 'Tv Show'" class="grid-container">
+        <button @click="goToSearchPage" class="card" to="/search">
+          <PlusSquareIcon class="icon"/>
+          <span>Add show</span>
         </button>
       </div>
     </div>
@@ -26,7 +55,7 @@ import { PlusSquareIcon } from '@lucide/vue';
 /* styling */
 
 .main-container {
-    background-color: whitesmoke;
+    background-color: white;
     display: flex;
     flex-direction: column;
     height: 100vh;
@@ -36,6 +65,13 @@ import { PlusSquareIcon } from '@lucide/vue';
 
 h1 {
   padding: 4rem 0 2rem 3rem;
+}
+
+.filter-container {
+  display: flex;
+  flex-direction: row;
+  padding: 0 0 1rem 2rem;
+  gap: 1rem;
 }
 
 .grid-container {
@@ -60,6 +96,7 @@ h1 {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-decoration: none;
 }
 
 .icon {
