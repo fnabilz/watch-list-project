@@ -10,8 +10,8 @@ const navItems = [
     icon: HomeIcon,
   },
   {
-    name: 'Search',
-    path: '/search',
+    name: 'Discover',
+    path: '/discover',
     icon: Search,
   },
   {

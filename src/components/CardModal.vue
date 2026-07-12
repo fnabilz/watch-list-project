@@ -99,7 +99,7 @@ const emit = defineEmits(['close'])
 button {
     font-weight: 600;
     color: white;
-    background-color: cornflowerblue;
+    background-color: navy;
     border-radius: .5rem;
     border-width: 0;
     padding: .7rem;

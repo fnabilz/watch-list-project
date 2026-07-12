@@ -1,75 +1,36 @@
 <script setup>
 // javaScript
-
-import {  } from '@lucide/vue';
+import SearchModal from '@/components/feeds/SearchModal.vue';
+import { UserPlus2Icon } from '@lucide/vue';
 import { onMounted, ref } from 'vue';
+import { getAvatarUrl } from '@/utils/avatar';
+import ProfileModal from '@/components/feeds/ProfileModal.vue';
+import { userList as followersList, recentActivityList } from '@/utils/mockData';
 
 const selectedCategory = ref('Activity')
-const categories = ['Activity','Friends']
+const categories = ['Activity','Following']
 
-const recentActivityList = ref([
-  {
-    id: 1,
-    user: 'Fikri',
-    action: 'Added "Dune: Part Two" to his watch list',
-    time: '2 minutes ago',
-  },
-  {
-    id: 2,
-    user: 'Nabil',
-    action: 'Added "The Bear" to his watch list',
-    time: '15 minutes ago',
-  },
-  {
-    id: 3,
-    user: 'Aisyah',
-    action: 'Finished watching "Breaking Bad"',
-    time: '1 hour ago',
-  },
-  {
-    id: 4,
-    user: 'Haziq',
-    action: 'Added "Oppenheimer" to his watch list',
-    time: '3 hours ago',
-  },
-  {
-    id: 5,
-    user: 'Sofia',
-    action: 'Rated "Succession" 5 stars',
-    time: '5 hours ago',
-  },
-  {
-    id: 6,
-    user: 'Danish',
-    action: 'Added "Spider-Man: Across the Spider-Verse" to his watch list',
-    time: 'Yesterday',
-  },
-  {
-    id: 7,
-    user: 'Iman',
-    action: 'Finished watching "The Last of Us"',
-    time: '2 days ago',
-  },
-  {
-    id: 8,
-    user: 'Qistina',
-    action: 'Added "Poor Things" to her watch list',
-    time: '3 days ago',
-  },
-])
 const loadedActivity = ref(false)
+const loadedFollowers= ref(false)
 
-function getAvatarUrl(name) {
-  const encodedName = encodeURIComponent(name)
-  return `https://ui-avatars.com/api/?name=${encodedName}&background=random`
-}
+const currentAction = ref('')
+const profileOpened = ref(null)
 
 function handleCategory(categoryName) {
   selectedCategory.value = categoryName
 }
 
+function onButtonClick(actionName) {
+  currentAction.value = actionName
+}
+
+function onProfileOpen(userObj) {
+  profileOpened.value = userObj
+}
+
 onMounted(() => {
   loadedActivity.value = true
+  loadedFollowers.value = true
 })
 
 </script>
@@ -78,10 +39,11 @@ onMounted(() => {
 <template>
     <!-- elements -->
     <div class="main-container">
+
       <h1>{{ selectedCategory }}</h1>
 
       <div class="filter-container">
-        <button v-for="(category, index) in categories" :key="index" @click="handleCategory(category)" :style="selectedCategory === category ? {backgroundColor: 'navy'} : {backgroundColor: 'cornflowerblue'}">
+        <button v-for="(category, index) in categories" :key="index" @click="handleCategory(category)" :style="selectedCategory === category ? {backgroundColor: 'navy'} : {backgroundColor: 'var(--color-blue)'}">
           {{ category }}
         </button>
       </div>
@@ -105,9 +67,27 @@ onMounted(() => {
             </div>
           </div>
       </div>
+      <div v-else class="list-container">
+
+        <div class="btn-container">
+          <button @click="onButtonClick('add-follow')" :style="currentAction === 'add-follow' ? {backgroundColor: 'navy', color: 'white'} : {}" >
+            <UserPlus2Icon class="icon" />
+          </button>
+        </div>
+        <div class="list-container">
+          <div v-if="followersList.length === 0 && !loadedFollowers" class="loading-card"> Loading... </div>
+          <div v-else-if="followersList.length === 0 && loadedFollowers" class="error-card"> Failed to fetch </div>
+          <button v-else v-for="follower in followersList" :key="follower.id" class="follower-card" @click="onProfileOpen(follower)">
+            <img :src="getAvatarUrl(follower.user)" class="avatar">
+            <h2>{{ follower.user }} </h2>
+          </button>
+        </div>
+
+      </div>
 
     </div>
-
+    <SearchModal v-if="currentAction === 'add-follow'" @close="onButtonClick('')" @open-profile="onProfileOpen"/>
+    <ProfileModal v-if="profileOpened" :profileInfo="profileOpened" @close="onProfileOpen"/>
 </template>
 
 
@@ -128,6 +108,7 @@ onMounted(() => {
 
 h1 {
   padding: 4rem 0 2rem 3rem;
+  font-size: 2.6rem;
 }
 
 .filter-container {
@@ -140,18 +121,14 @@ h1 {
 .list-container {
   display: flex;
   flex-direction: column;
-  gap: .4rem;
-  margin: 0 2rem 2rem 2rem;
+  justify-content: center;
 
   overflow-y: auto;
   position: relative;
+  overflow: visible;
 }
 
 .loading-card {
-  border: .2rem solid #50ff5f;
-  border-radius: 1rem;
-  background-color: #d4fbd8;
-  width: 100%;
   height: 5rem;
   position: relative;
 
@@ -159,16 +136,13 @@ h1 {
   align-items: center;
   justify-content: center;
 
-  color: #50ff5f;
-  font-size: small;
+  color: black;
+  font-size: 1.6rem;
   font-weight: bold;
+  padding: 0 0 0 1rem;
 }
 
 .error-card {
-  border: .2rem solid #ff5050;
-  border-radius: 1rem;
-  background-color: #ffacac;
-  width: 100%;
   height: 5rem;
   position: relative;
 
@@ -176,28 +150,31 @@ h1 {
   align-items: center;
   justify-content: center;
 
-  color: #ff5050;
-  font-size: small;
+  color: black;
+  font-size: 1.6rem;
   font-weight: bold;
+  padding: 0 0 0 1rem;
 }
 
 .activity-card {
   background-color: white;
   width: 100%;
-  min-height: 6rem;
+  min-height: 6.5rem;
   position: relative;
 
   display: flex;
   flex-direction: row;
   align-items: center;
+
+  padding: 0 2rem 0 2rem;
 }
 
 .activity-card:not(:last-child)::after {
   content: '';
   position: absolute;
-  bottom: -2.3rem;   /* extends downward into the gap (gap is 1.5rem) */
+  bottom: -2rem;   /* extends downward into the gap (gap is 1.5rem) */
   top: 70%;         /* starts right at the bottom edge of this card */
-  left: 2.2px;        /* matches dot's horizontal center (dot width 7px / 2) */
+  left: 2.2rem;        /* matches dot's horizontal center (dot width 7px / 2) */
   width: 3px;
   background: #d1d5db;
   z-index: 5;
@@ -206,6 +183,8 @@ h1 {
   display: flex;
   flex-direction: row;
   justify-content: center;
+
+
 }
 
 .dot {
@@ -221,7 +200,8 @@ h1 {
   width: 4rem;
   height: 4rem;
   margin: 0 0 0 1rem;
-  border-radius: 1rem;
+  outline: .1rem solid rgba(0, 0, 0, .2);
+  border-radius: 100%;
 }
 
 .card-content {
@@ -254,10 +234,64 @@ h1 {
   flex-direction: column;
 }
 
+.btn-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  top: -5rem;
+  right: 1rem;
+  z-index: 5;
+  height: 5rem;
+  position: absolute;
+}
+
+.btn-container button {
+  background-color: white;
+  color: black;
+  height: 4rem;
+  width: 5rem;
+  transition: background-color ease .25s;
+  transition: color ease .25s;
+}
+
+.btn-container button:active {
+  background-color: navy;
+  color: white;
+}
+
+.follower-card {
+  background-color: white;
+  color: black;
+  width: 100%;
+  min-height: 6.5rem;
+  position: relative;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  padding: 0 2rem 0 2rem;
+}
+
+.follower-card h2 {
+  padding: 0 0 0 2rem;
+  font-size: 1.6rem;
+}
+
+.follower-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: #e5e7eb;
+}
+
 .icon {
-    color: #6D8196;
-    width: 2rem;
-    height: 2rem;
+    width: 2.5rem;
+    height: 2.5rem;
 }
 
 input {
@@ -273,10 +307,11 @@ input {
 button {
     font-weight: 600;
     color: white;
-    background-color: cornflowerblue;
+    background-color: var(--color-blue);
     border-radius: .5rem;
     border-width: 0;
     padding: .7rem;
+    transition: background-color ease .25s;
 }
 
 button:hover {

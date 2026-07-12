@@ -22,7 +22,7 @@ import { } from '@lucide/vue';
 }
 
 .main-container {
-    background-color: whitesmoke;
+    background-color: white;
     display: flex;
     justify-content: center;
     align-items: center;

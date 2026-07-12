@@ -100,15 +100,13 @@ onMounted(() => {
 
 <template>
     <!-- elements -->
-    <CardModal v-if="selectedCard" :item="selectedCard" @close="closeCard"/>
-
     <div class="main-container">
       <div class="search-container">
         <input type="string" placeholder="Search movie/show name" @focus="searching = true" @blur="searching = false" v-model="searchQuery" @keyup.enter="handleSearch" >
       </div>
 
       <div class="filter-container">
-        <button v-for="(category, index) in categories" :key="index" @click="handleCategory(category)" :style="selectedCategory === category ? {backgroundColor: 'navy'} : {backgroundColor: 'cornflowerblue'}">
+        <button v-for="(category, index) in categories" :key="index" @click="handleCategory(category)" :style="selectedCategory === category ? {backgroundColor: 'navy'} : {backgroundColor: 'var(--color-blue)'}">
           {{ category }}
         </button>
       </div>
@@ -152,7 +150,7 @@ onMounted(() => {
       </div>
 
     </div>
-
+    <CardModal v-if="selectedCard" :item="selectedCard" @close="closeCard"/>
 </template>
 
 
@@ -194,6 +192,7 @@ onMounted(() => {
 
 .category-container h1 {
   padding: 0 0 0 1rem;
+  font-size: 2.6rem;
 }
 
 .list-container {
@@ -205,10 +204,6 @@ onMounted(() => {
 }
 
 .loading-card {
-  border: .2rem solid #50ff5f;
-  border-radius: 1rem;
-  background-color: #d4fbd8;
-  width: 100%;
   height: 5rem;
   position: relative;
 
@@ -216,16 +211,13 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
 
-  color: #50ff5f;
-  font-size: small;
+  color: black;
+  font-size: 1.6rem;
   font-weight: bold;
+  padding: 0 0 0 1rem;
 }
 
 .error-card {
-  border: .2rem solid #ff5050;
-  border-radius: 1rem;
-  background-color: #ffacac;
-  width: 100%;
   height: 5rem;
   position: relative;
 
@@ -233,9 +225,10 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
 
-  color: #ff5050;
-  font-size: small;
+  color: black;
+  font-size: 1.6rem;
   font-weight: bold;
+  padding: 0 0 0 1rem;
 }
 
 .movie-card {
@@ -281,19 +274,19 @@ onMounted(() => {
 }
 
 input {
-    font-weight: 600;
-    border: .1rem solid #dadada;
-    border-radius: 1rem;
-    background-color: whitesmoke;
-    width: 100%;
-    height: 4rem;
-    padding: 0 1rem 0 1rem;
-    transition: border-color .25s ease;
+  font-weight: 600;
+  border: .1rem solid whitesmoke;
+  border-radius: 1rem;
+  background-color: whitesmoke;
+  width: 100%;
+  height: 4rem;
+  padding: 0 1rem 0 1rem;
+  transition: border-color .25s ease;
+  outline: .1rem solid rgb(190, 190, 190);
 }
 
 input:focus {
-  outline: none;
-  border-color: cornflowerblue;
+  box-shadow: 0 0 0 .3rem cornflowerblue;
 }
 
 button {

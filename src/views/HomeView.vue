@@ -15,7 +15,7 @@ function handleCategory(categoryName) {
 
 function goToSearchPage() {
   router.push({
-    path: '/search',
+    path: '/discover',
     query: { category: selectedCategory.value }
   })
 }
@@ -29,19 +29,19 @@ function goToSearchPage() {
       <h1>Layan later?</h1>
 
       <div class="filter-container">
-        <button v-for="(category, index) in categories" :key="index" @click="handleCategory(category)" :style="selectedCategory === category ? {backgroundColor: 'navy'} : {backgroundColor: 'cornflowerblue'}">
+        <button v-for="(category, index) in categories" :key="index" @click="handleCategory(category)" :style="selectedCategory === category ? {backgroundColor: 'navy'} : {backgroundColor: 'var(--color-blue)'}">
           {{ category }}
         </button>
       </div>
 
       <div v-if="selectedCategory === 'Movie'" class="grid-container">
-        <button @click="goToSearchPage" class="card" to="/search">
+        <button @click="goToSearchPage" class="card">
           <PlusSquareIcon class="icon"/>
           <span>Add movie</span>
         </button>
       </div>
       <div v-if="selectedCategory === 'Tv Show'" class="grid-container">
-        <button @click="goToSearchPage" class="card" to="/search">
+        <button @click="goToSearchPage" class="card">
           <PlusSquareIcon class="icon"/>
           <span>Add show</span>
         </button>
@@ -65,6 +65,7 @@ function goToSearchPage() {
 
 h1 {
   padding: 4rem 0 2rem 3rem;
+  font-size: 2.6rem;
 }
 
 .filter-container {
